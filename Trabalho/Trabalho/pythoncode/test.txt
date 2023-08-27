@@ -1,0 +1,49 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+class PgmFunctions:
+    def __init__(self):
+        self.new_data_list = None
+        self.data_list = None
+        self.min_value = None
+        self.max_value = None
+        self.data = None
+        self.width = None
+        self.height = None
+
+    def reader_p2(self, pgm_file):
+        with open(pgm_file, 'r') as f:
+            lines = f.readlines()
+
+        for l in list(lines):
+            if l[0] == '#':
+                lines.remove(l)
+
+        data = []
+        for line in lines[1:]:
+            data.extend([int(c) for c in line.split()])
+
+        self.width = data[0]
+        self.height = data[1]
+        self.max_value = data[2]
+
+        data = np.array(data[3:])
+        self.min_value = min(data)
+        print(self.max_value)
+        print(self.min_value)
+
+        self.data_list = data
+        data = data.reshape(self.width, self.height)
+        self.data = data
+
+    def show_img(self):
+        plt.imshow(self.data, cmap='gray')
+        plt.show()
+
+    def quantifier_image(self, passo):
+        self.new_data_list = []
+        self.new_data_list.extend(((value - self.min_value)/passo) for value in self.data_list)
+        new_data = np.array(self.new_data_list)
+        new_data = new_data.reshape(self.width, self.height)
+        return new_data
