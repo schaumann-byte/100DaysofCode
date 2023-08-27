@@ -71,5 +71,4 @@ while ainda_tem_corrida:
         distance = random.randint(0, 10)
         turtle.forward(distance)
 
-#editei dnv
 screen.exitonclick()
